@@ -4,10 +4,10 @@ server.key:
 	openssl genrsa -out $@ 2048
 
 server.csr: server.key
-	openssl req -new -batch -key $< -out $@
+	openssl req -nodes -new -subj '/CN=localhost' -addext 'subjectAltName=DNS:localhost' -key $< -out $@
 
 server.cer: server.csr server.key
-	openssl x509 -signkey server.key -in $< -req -days 365 -out $@
+	openssl x509 -signkey server.key -copy_extensions copy -ext subjectAltName -in $< -req -days 7 -out $@
 
 server.pem: server.cer server.key
 	cat $^ > $@
