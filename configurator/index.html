@@ -5,15 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="main.js"></script>
+    <style>.target {stroke: red;}</style>
 </head>
 <body>
-    <h1>0x1189 Configurator</h1>
-    <button id="connect" accesskey="c"><u>c</u>onnect</button><br/>
-    <button id="led1" accesskey="1">led<u>1</u></button>
-    <button id="led2" accesskey="2">led<u>2</u></button>
-    <button id="macro" accesskey="m"><u>m</u>acro</button>
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path onclick="toggle();" d="M0,0L0,16L16,16+16,0Z" fill="blue"></path>
-        </svg>
+    <h1>0x<span id=vid contenteditable=true>1189</span> Configurator</h1>
+    
+    <h2>1. Connect to your macropad</h2>
+    <button id=connect accesskey=c><u>c</u>onnect</button>
+    <br>check
+    <button id=led1 accesskey=1>led pattern<u>1</u></button>
+    <button id=led2 accesskey=2>led pattern<u>2</u></button>
+    <h2>2. select a key to assign:</h2>
+    <select id=layer size=3>
+        <option value=1 selected>layer 1</option>
+        <option value=2         >layer 2</option>
+        <option value=3         >layer 3</option>
+    </select>
+    <div id=key_area></div>
+    <h2>3. pick keycodes (up to 5):</h2>
+    <input id=keycodes readonly> <button id=clear>clear</button>
+    <div id=matrix_area></div>
+    <h2>4. download them to your macropad</h2>
+    <button id=download accesskey=d><u>d</u>ownload to the device</button>
+
+    <hr/>
+    <a href="https://github.com/matobaa/ch552-macropad">https://github.com/matobaa/ch552-macropad</a>
 </body>
 </html>
