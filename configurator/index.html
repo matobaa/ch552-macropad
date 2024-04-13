@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="main.js"></script>
-    <style>.target {stroke: red;}</style>
+    <style>
+        .target {stroke: red;}
+        svg, label, input[type='checkbox'] { cursor: pointer; user-select: none; }
+    </style>
 </head>
 <body>
     <h1>0x<span id=vid contenteditable=true>1189</span> Configurator</h1>
@@ -15,6 +18,7 @@
     <br>check
     <button id=led1 accesskey=1>led pattern<u>1</u></button>
     <button id=led2 accesskey=2>led pattern<u>2</u></button>
+    
     <h2>2. select a key to assign:</h2>
     <select id=layer size=3>
         <option value=1 selected>layer 1</option>
@@ -22,12 +26,20 @@
         <option value=3         >layer 3</option>
     </select>
     <div id=key_area></div>
-    <h2>3. pick keycodes (up to 5):</h2>
-    <input id=keycodes readonly> <button id=clear>clear</button>
-    <div id=matrix_area></div>
+    
+    <h2>3-1. pick keycodes (up to 5):</h2>
+    <ol id=keycodes></ol>
+    
+    <h2>3-2. or, pick a mouse action:</h2>
+    // TODO
+    
+    <h2>3-3. or, pick a mediakey:</h2>
+    // TODO
+
     <h2>4. download them to your macropad</h2>
     <button id=download accesskey=d><u>d</u>ownload to the device</button>
-
+    
+    Enjoy!
     <hr/>
     <a href="https://github.com/matobaa/ch552-macropad">https://github.com/matobaa/ch552-macropad</a>
 </body>
