@@ -75,15 +75,13 @@ const aim = (key) => {
     target.classList.add("target");
 }
 
-const keycode_html = (i) => {
-    hid_keyboard_usage_table = [
-        // usage_id, usage_name, face
-        ["0x04", "Keyboard a and A", "aA"],
-        ["0x05", "Keyboard b and B", "bB"]
-    ];
-    return ["Shift", "Ctrl", "Alt", "Win"].map((mod) => `<label for=mod_${i}_${mod}><input type=checkbox id=mod_${i}_${mod}></input>${mod}</label>`).join(" ")
-         + ` + <select id=keycode_${i} size=1>`
-         + `<option value=NOP selected>(NOP)</option>`
-         + hid_keyboard_usage_table.map( ([usage_id, usage_name, face]) => `<option value=${usage_id}>${face}: ${usage_name}</option>`).join("\n")
-         + `</select>`;
+const keycode_html = (pos) => {
+    return  (
+        ["Ctrl", "Shift", "Alt", "GUI"].map((mod,j) => `<label for=mod_${pos}${j}><input type=checkbox id=mod_${pos}${j}></input>${mod}</label>`).join(" ")
+        + ` <select id=keycode_${pos} size=1>`
+        + `<option value=NOP selected>(NOP)</option>`
+        + hid_usage_table_0x07.map( ([usage_id, usage_name, face]) => `<option value=${usage_id}>${face||""}: ${usage_name}</option>`).join("\n")
+        + `</select>`
+        + ["Ctrl", "Shift", "Alt", "GUI"].map((mod,j) => `<label for=mod_${pos}${j}><input type=checkbox id=mod_${pos}${j}></input>${mod}</label>`).join(" ")
+    );
 }
