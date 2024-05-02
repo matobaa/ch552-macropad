@@ -18,14 +18,14 @@ window.onload = () => {
     download.onclick = async event => {
         var layer = document.querySelector("#layer option[selected]").value;
         var key = target?.attributes["value"]?.value;
+        if(!key) return;
+        key = parseInt(key);
         var usages = [...document.querySelectorAll("#keycodes li")].map(
                 li => ({
                     id: parseInt(li.querySelector("option:checked").value, 16),
                     modifier: [...li.querySelectorAll("[type=checkbox]:checked")].reduce((a,c)=>a|c.value, 0)
                 }))
                 .filter((usage) => !isNaN(usage.id));
-        if(!key) return;
-        key = parseInt(key);
         sendReport(3, [0xa1, 0x01]);  // start marker
         await sleep(500);
         sendReport(3, [key, (layer<<4)+1, usages.length]);
@@ -45,17 +45,14 @@ window.onload = () => {
     macrokeys.map(row => {
         row.map(key => {
             if (Number.isInteger(key)) {  // Integer assumes a cherrymx key
-                const mxkey = document.createElement("span");
-                mxkey.innerHTML = `
+                key_area.innerHTML += `
                     <svg width=95.25 height=95.25 viewBox=0,0,20,20 onclick=aim(${key}) id=key_${key} value=${key} stroke=darkgrey>
                         <rect id=outer x=1 y=1 width=18 height=18 rx=1 ry=1 stroke-width=.5 fill=lightgrey></rect>
                         <rect id=inner x=3 y=2 width=14 height=13 rx=1.8 ry=1.8 stroke-width=.1 fill=white></rect>
                         <text x=5 y=8 font-size=5 stroke=none fill=black>${key}</text>
                     </svg>`;
-                key_area.appendChild(mxkey);
             } else if (Array.isArray(key)) { // Array assumes a rotary encoder
-                const rotaryencoder = document.createElement("span");
-                rotaryencoder.innerHTML = `
+                key_area.innerHTML += `
                     <svg width=100 height=100 viewBox=0,0,20,22 fill=white
                             stroke=darkgrey stroke-width=.5 stroke-linecap=round stroke-linejoin=round pointer-events=bounding-box>
                         <path id=bottom d="m 1 12 a 9,9,0,0,0,18,0" fill=lightgrey></path>
@@ -67,10 +64,9 @@ window.onload = () => {
                         <text x=7.5  y=14 font-size=3.6 stroke=none fill=black onclick=aim(${key.at(1)})>${key.at(1)||""}</text>
                         <text x=13.5 y=14 font-size=3.6 stroke=none fill=black onclick=aim(${key.at(2)})>${key.at(2)||""}</text>
                     </svg>`;
-                key_area.appendChild(rotaryencoder);
             }
         });
-        key_area.appendChild(document.createElement("br"));  // break at end of a row
+    key_area.innerHTML += "<br/>";  // break at end of a row
     });
 
     //
