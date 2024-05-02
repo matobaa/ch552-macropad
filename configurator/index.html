@@ -28,14 +28,34 @@
     </select>
     <div id=key_area></div>
     
-    <h2>3-1. pick keycodes (up to 5):</h2>
+    <h2>3. set value(s)</h2>
+    <h3><label><input type=radio name=source value=keycodes></input>keycodes (up to 5):</label></h3>
     <ol id=keycodes></ol>
     
-    <h2>3-2. or, pick a mouse action:</h2>
-    // TODO
+    <h3><label><input type=radio name=source value=mice></input>mouse action:</label></h3>
+    <label><input type=checkbox value=1></input>Ctrl</label>
+    <label><input type=checkbox value=2></input>Shift</label>
+    <label><input type=checkbox value=4></input>Alt</label>
+    <label><input type=checkbox value=8></input>GUI</label>
+    <select id=mice>
+        <option value=nop selected>(Please select)</option>
+        <option value=button_1>Left click</option>
+        <option value=button_2>Right click</option>
+        <option value=button_4>Centre click</option>
+        <option value=wheel_01>Wheel Up</option>
+        <option value=wheel_ff>Wheel Down</option>
+    </select>
     
-    <h2>3-3. or, pick a mediakey:</h2>
-    // TODO
+    <h3><label><input type=radio name=source value=media></input>mediakey:</label></h3>
+    <select id=media>
+        <option value=nop selected>(Please select)</option>
+        <option value=play>⏯️Play/Pause</option>
+        <option value=prev>⏮️Prev song</option>
+        <option value=next>⏭️Next song</option>
+        <option value=mute>🔇Mute</option>
+        <option value=voldn>🔉Volume Down</option>
+        <option value=volup>🔊Volume Up</option>
+    </select>
 
     <h2>4. download them to your macropad</h2>
     <button id=download accesskey=d><u>d</u>ownload to the device</button>
