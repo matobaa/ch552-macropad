@@ -9,6 +9,14 @@
     <style>
         .target {stroke: red;}
         svg, label, input[type='checkbox'] { cursor: pointer; user-select: none; }
+        ol {margin: 0;}
+        [role=tablist] {display: grid;   grid-template-columns: 1fr 1fr 1fr;}
+        [role=tab] {border: 2px solid; border-color: grey grey red grey; display: block; float: left; background-color: lightgray;}
+        [role=tab]:has(input:checked) {border-color: red; border-bottom: 0px; background-color: inherit;}
+        [role=tabpanel] {display: none; border: 2px solid red; border-top: 0px;}
+        [role=tablist]:has(input[value=keycodes]:checked) ~ [role=tabpanel][id=keycodes] {display: inherit;}
+        [role=tablist]:has(input[value=mice    ]:checked) ~ [role=tabpanel][id=mice    ] {display: inherit;}
+        [role=tablist]:has(input[value=media   ]:checked) ~ [role=tabpanel][id=media   ] {display: inherit;}
     </style>
 </head>
 <body>
@@ -29,34 +37,41 @@
     <div id=key_area></div>
     
     <h2>3. set value(s)</h2>
-    <h3><label><input type=radio name=source value=keycodes></input>keycodes (up to 5):</label></h3>
-    <ol id=keycodes></ol>
-    
-    <h3><label><input type=radio name=source value=mice></input>mouse action:</label></h3>
-    <label><input type=checkbox value=1></input>Ctrl</label>
-    <label><input type=checkbox value=2></input>Shift</label>
-    <label><input type=checkbox value=4></input>Alt</label>
-    <label><input type=checkbox value=8></input>GUI</label>
-    <select id=mice>
-        <option value=nop selected>(Please select)</option>
-        <option value=button_1>Left click</option>
-        <option value=button_2>Right click</option>
-        <option value=button_4>Centre click</option>
-        <option value=wheel_01>Wheel Up</option>
-        <option value=wheel_ff>Wheel Down</option>
-    </select>
-    
-    <h3><label><input type=radio name=source value=media></input>mediakey:</label></h3>
-    <select id=media>
-        <option value=nop selected>(Please select)</option>
-        <option value=play>⏯️Play/Pause</option>
-        <option value=prev>⏮️Prev song</option>
-        <option value=next>⏭️Next song</option>
-        <option value=mute>🔇Mute</option>
-        <option value=voldn>🔉Volume Down</option>
-        <option value=volup>🔊Volume Up</option>
-    </select>
+    <div role=tablist>
+        <label role=tab aria-controls=keycodes><input type=radio name=source value=keycodes checked=true></input>keycodes (up to 5):</label>
+        <label role=tab aria-controls=mice><input type=radio name=source value=mice></input>mouse action:</label>
+        <label role=tab aria-controls=media><input type=radio name=source value=media></input>mediakey:</label>
+    </div>
 
+    <ol role=tabpanel id=keycodes></ol>
+    
+    <div role=tabpanel id=mice>
+        <label><input type=checkbox value=1></input>Ctrl</label>
+        <label><input type=checkbox value=2></input>Shift</label>
+        <label><input type=checkbox value=4></input>Alt</label>
+        <label><input type=checkbox value=8></input>GUI</label>
+        <select>
+            <option value=nop selected>(Please select)</option>
+            <option value=button_1>Left click</option>
+            <option value=button_2>Right click</option>
+            <option value=button_4>Centre click</option>
+            <option value=wheel_01>Wheel Up</option>
+            <option value=wheel_ff>Wheel Down</option>
+        </select>
+    </div>
+    
+    <div role=tabpanel id=media>
+        <select>
+            <option value=nop selected>(Please select)</option>
+            <option value=play>⏯️Play/Pause</option>
+            <option value=prev>⏮️Prev song</option>
+            <option value=next>⏭️Next song</option>
+            <option value=mute>🔇Mute</option>
+            <option value=voldn>🔉Volume Down</option>
+            <option value=volup>🔊Volume Up</option>
+        </select>
+    </div>
+        
     <h2>4. download them to your macropad</h2>
     <button id=download accesskey=d><u>d</u>ownload to the device</button>
     
