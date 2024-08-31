@@ -62,8 +62,13 @@ window.onload = () => {
                 sendReport(3, [0xaa, 0xaa]);  // stop marker
                 break;
             case 'media':
-                // #TODO not implemented
+                li = document.querySelector("#media");
+                var usages = [{
+                    id: parseInt(li.querySelector("option:checked").value, 16)
+                }]
+                console.debug(usages[0]);
                 sendReport(3, [0xa1, 0x01]);  // start marker
+                sendReport(3, [key, (layer << 4) + 2, usages[0].id]);
                 sendReport(3, [0xaa, 0xaa]);  // stop marker
                 break;
             // fall through if no or unexpected tab is selected 

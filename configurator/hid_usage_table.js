@@ -224,3 +224,13 @@ hid_usage_table_0x07 = [  // Keyboard/Keypad Page
     ["E6", "Keyboard RightAlt", "RAlt"],
     ["E7", "Keyboard Right GUI", "RGUI"],
 ]
+
+hid_usage_table_0x0c = [  // Consumer Page
+    // usage_id, usage_name, face
+    ["CD", "Play/Pause", "Play ⏯️"],
+    ["B6", "Scan Previous Track", "Prev ⏮️"],
+    ["B5", "Scan Next Track","Next ⏭️"],
+    ["E2", "Mute", "Mute 🔇"],
+    ["EA", "Volume Decrement", "Vol- 🔉"],
+    ["E9", "Volume Increment", "Vol+ 🔊"]
+]
