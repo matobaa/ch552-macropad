@@ -1,8 +1,11 @@
 window.onload = () => {
     var device;
 
-    const sendReport = async (reportId, data) => await device.sendReport(reportId, Uint8Array.from(data));
-    const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
+    const sleep = msec => new Promise(resolve => setTimeout(resolve, msec || 500));
+    const sendReport = async (reportId, data) => {
+        await device.sendReport(reportId, Uint8Array.from(data));
+        await sleep();
+    }
 
     // connect handler
     document.querySelector("#connect").addEventListener("click", async event => {
@@ -26,29 +29,46 @@ window.onload = () => {
         if (!key) return;
         key = parseInt(key);
 
-        // keycodes
-        var usages = [...document.querySelectorAll("#keycodes li")].map(
-            li => ({
-                id: parseInt(li.querySelector("option:checked").value, 16),
-                modifier: [...li.querySelectorAll("[type=checkbox]:checked")].reduce((a, c) => a | c.value, 0)
-            }))
-            .filter((usage) => !isNaN(usage.id));
-        sendReport(3, [0xa1, 0x01]);  // start marker
-        await sleep(500);
-        sendReport(3, [key, (layer << 4) + 1, usages.length]);
-        await sleep(500);
-        for (let i = 0; i < usages.length; i++) {
-            sendReport(3, [key, (layer << 4) + 1, usages.length, i + 1, usages[i].modifier, usages[i].id]);
-            await sleep(500);
+        const tab_selected = [...document.querySelectorAll("div[role=tablist] input")].find(e => e.checked)?.value
+        switch(tab_selected) {
+            case 'keycodes':
+                var usages = [...document.querySelectorAll("#keycodes li")].map(
+                    li => ({
+                        id: parseInt(li.querySelector("option:checked").value, 16),
+                        modifier: [...li.querySelectorAll("[type=checkbox]:checked")].reduce((a, c) => a | c.value, 0)
+                    }))
+                    .filter((usage) => !isNaN(usage.id));
+                sendReport(3, [0xa1, 0x01]);  // start marker
+                sendReport(3, [key, (layer << 4) + 1, usages.length]);
+                for (let i = 0; i < usages.length; i++) {
+                    sendReport(3, [key, (layer << 4) + 1, usages.length, i + 1, usages[i].modifier, usages[i].id]);
+                }
+                sendReport(3, [0xaa, 0xaa]);  // stop marker
+                break;
+            case 'mice':
+                // #TODO not implemented
+                li = document.querySelector("#mice");
+                var usages = [{
+                        id: li.querySelector("option:checked").value,
+                        modifier: [...li.querySelectorAll("[type=checkbox]:checked")].reduce((a, c) => a | c.value, 0)
+                    }]
+                    .map(usage => Object.assign(usage, {
+                        button: parseInt(usage.id.match(/^button_(.*)/)?.[1] || 0, 16),
+                        wheel: parseInt(usage.id.match(/^wheel_(.*)/)?.[1] || 0, 16)
+                    }));
+                // console.debug(usages[0])
+                sendReport(3, [0xa1, 0x01]);  // start marker
+                sendReport(3, [key, (layer << 4) + 3, usages[0].button, 0, 0, usages[0].wheel, usages[0].modifier]);
+                sendReport(3, [0xaa, 0xaa]);  // stop marker
+                break;
+            case 'media':
+                // #TODO not implemented
+                sendReport(3, [0xa1, 0x01]);  // start marker
+                sendReport(3, [0xaa, 0xaa]);  // stop marker
+                break;
+            // fall through if no or unexpected tab is selected 
         }
 
-        // mouse action
-        // #TODO not implemented
-
-        // mediakey action
-        // #TODO not implemented
-
-        sendReport(3, [0xaa, 0xaa]);  // stop marker
     });
 
     // render a macropad
